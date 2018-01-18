@@ -27,7 +27,7 @@ mutable struct PageAlignedArray{T,N} <: AbstractArray{T,N}
 end
 PageAlignedArray{T}(dims::Integer...) where {T} = PageAlignedArray{T,length(dims)}(dims)
 const PageAlignedVector{T} = PageAlignedArray{T,1}
-const PageAlignedVector{T} = PageAlignedArray{T,2}
+const PageAlignedMatrix{T} = PageAlignedArray{T,2}
 
 Base.size(A::PageAlignedArray) = size(A.backing)
 Base.IndexStyle(::Type{<:PageAlignedArray}) = Base.IndexLinear()
