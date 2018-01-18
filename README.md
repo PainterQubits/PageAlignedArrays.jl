@@ -6,9 +6,7 @@
 [![codecov.io](http://codecov.io/github/ajkeller34/PageAlignedArrays.jl/coverage.svg?branch=master)](http://codecov.io/github/ajkeller34/PageAlignedArrays.jl?branch=master)
 
 A `PageAlignedArray{T,N}` is an `N`-dimensional array of eltype `T` which is guaranteed to have its memory be
-page-aligned. This has to be a mutable struct because finalizers are used to clean up the
-memory allocated by C calls when there remain no references to the PageAlignedArray object
-in Julia. Two convenient aliases are provided: `PageAlignedVector{T} = PageAlignedArray{T,1}`
+page-aligned. Two convenient aliases are provided: `PageAlignedVector{T} = PageAlignedArray{T,1}`
 and `PageAlignedMatrix{T} = PageAlignedArray{T,2}`.
 
 These arrays should not be preferred in ordinary circumstances. However, some streaming
