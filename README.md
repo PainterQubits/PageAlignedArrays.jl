@@ -9,7 +9,7 @@
     mutable struct PageAlignedArray{T,N} <: AbstractArray{T,N}
 ```
 
-An `N`-dimensional array of eltype `T` which is guaranteed to have its memory be
+A `PageAlignedArray{T,N}` is an `N`-dimensional array of eltype `T` which is guaranteed to have its memory be
 page-aligned. This has to be a mutable struct because finalizers are used to clean up the
 memory allocated by C calls when there remain no references to the PageAlignedArray object
 in Julia. Two convenient aliases are provided: `PageAlignedVector{T} = PageAlignedArray{T,1}`
