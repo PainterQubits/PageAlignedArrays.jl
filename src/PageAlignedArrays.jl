@@ -47,12 +47,12 @@ function virtualalloc(size_bytes::Integer, ::Type{T}) where {T}
         MEM_COMMIT = 0x1000
         PAGE_READWRITE = 0x4
         addr = ccall((:VirtualAlloc, "Kernel32"), Ptr{T},
-            (Ptr{Void}, Culonglong, Culong, Culong),
+            (Ptr{Void}, Csize_t, Culong, Culong),
             C_NULL, size_bytes, MEM_COMMIT, PAGE_READWRITE)
     end : @static is_linux() ? begin
-        addr = ccall((:valloc, linux_libc), Ptr{T}, (Culonglong,), size_bytes)
+        addr = ccall((:valloc, "libc"), Ptr{T}, (Csize_t,), size_bytes)
     end : @static is_apple() ? begin
-        addr = ccall((:valloc, "libSystem.dylib"), Ptr{T}, (Culonglong,), size_bytes)
+        addr = ccall((:valloc, "libSystem.dylib"), Ptr{T}, (Csize_t,), size_bytes)
     end : throw(SystemError())
 
     addr == C_NULL && throw(OutOfMemoryError())
@@ -67,10 +67,10 @@ behavior if called on a pointer coming from elsewhere.
 function virtualfree(addr::Ptr{T}) where {T}
     @static is_windows() ? begin
         MEM_RELEASE = 0x8000
-        return ccall((:VirtualFree, "Kernel32"), Cint, (Ptr{Void}, Culonglong, Culong),
+        return ccall((:VirtualFree, "Kernel32"), Cint, (Ptr{Void}, Csize_t, Culong),
             addr, 0, MEM_RELEASE)
     end : @static is_linux() ? begin
-        return ccall((:free, linux_libc), Void, (Ptr{Void},), addr)
+        return ccall((:free, "libc"), Void, (Ptr{Void},), addr)
     end : @static is_apple() ? begin
         return ccall((:free, "libSystem.dylib"), Void, (Ptr{Void},), addr)
     end : error("OS not supported")
