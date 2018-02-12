@@ -1,4 +1,5 @@
 module PageAlignedArrays
+using Compat
 export PageAlignedArray, PageAlignedVector, PageAlignedMatrix
 
 """
@@ -21,7 +22,7 @@ mutable struct PageAlignedArray{T,N} <: AbstractArray{T,N}
         addr = virtualalloc(sizeof(T) * n, T)
         backing = unsafe_wrap(Array, addr, dims, false)
         array = new{T,N}(backing, addr)
-        finalizer(array, x->virtualfree(x.addr))
+        @compat finalizer(x->virtualfree(x.addr), array)
         return array
     end
 end
