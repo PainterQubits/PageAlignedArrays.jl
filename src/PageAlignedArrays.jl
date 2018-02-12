@@ -44,15 +44,15 @@ Allocate page-aligned memory and return a `Ptr{T}` to the allocation. The caller
 responsible for de-allocating the memory using `virtualfree`, otherwise it will leak.
 """
 function virtualalloc(size_bytes::Integer, ::Type{T}) where {T}
-    @static is_windows() ? begin
+    @static Compat.Sys.is_windows() ? begin
         MEM_COMMIT = 0x1000
         PAGE_READWRITE = 0x4
         addr = ccall((:VirtualAlloc, "Kernel32"), Ptr{T},
             (Ptr{Void}, Csize_t, Culong, Culong),
             C_NULL, size_bytes, MEM_COMMIT, PAGE_READWRITE)
-    end : @static is_linux() ? begin
+    end : @static Compat.Sys.is_linux() ? begin
         addr = ccall((:valloc, "libc"), Ptr{T}, (Csize_t,), size_bytes)
-    end : @static is_apple() ? begin
+    end : @static Compat.Sys.is_apple() ? begin
         addr = ccall((:valloc, "libSystem.dylib"), Ptr{T}, (Csize_t,), size_bytes)
     end : throw(SystemError())
 
@@ -66,13 +66,13 @@ Free memory that has been allocated using `virtualalloc`. Undefined, likely very
 behavior if called on a pointer coming from elsewhere.
 """
 function virtualfree(addr::Ptr{T}) where {T}
-    @static is_windows() ? begin
+    @static Compat.Sys.is_windows() ? begin
         MEM_RELEASE = 0x8000
         return ccall((:VirtualFree, "Kernel32"), Cint, (Ptr{Void}, Csize_t, Culong),
             addr, 0, MEM_RELEASE)
-    end : @static is_linux() ? begin
+    end : @static Compat.Sys.is_linux() ? begin
         return ccall((:free, "libc"), Void, (Ptr{Void},), addr)
-    end : @static is_apple() ? begin
+    end : @static Compat.Sys.is_apple() ? begin
         return ccall((:free, "libSystem.dylib"), Void, (Ptr{Void},), addr)
     end : error("OS not supported")
 end
