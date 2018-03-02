@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/ajkeller34/PageAlignedArrays.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/ajkeller34/PageAlignedArrays.jl?branch=master)
 [![codecov.io](http://codecov.io/github/ajkeller34/PageAlignedArrays.jl/coverage.svg?branch=master)](http://codecov.io/github/ajkeller34/PageAlignedArrays.jl?branch=master)
 
-A `PageAlignedArray{T,N}` is an `N`-dimensional array of eltype `T` which is guaranteed to have its memory be
+A `PageAlignedArray` is an array which is guaranteed to have its memory be
 page-aligned. Two convenient aliases are provided: `PageAlignedVector{T} = PageAlignedArray{T,1}`
 and `PageAlignedMatrix{T} = PageAlignedArray{T,2}`.
 
