@@ -1,0 +1,16 @@
+name = "PageAlignedArrays"
+uuid = "ba0cfe35-a769-40a2-96c5-fb706a08f4a0"
+authors = ["Andrew Keller"]
+version = "0.1"
+
+[deps]
+Compat = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+
+[compat]
+julia = "1.5"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

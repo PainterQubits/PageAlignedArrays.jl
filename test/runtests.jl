@@ -1,5 +1,7 @@
 using PageAlignedArrays
-using Base.Test
+using Test
+using Mmap
+
 
 p = PageAlignedVector{Int}(512)
 @test (p[:] = 1) == 1
@@ -10,4 +12,4 @@ p = PageAlignedVector{Int}(512)
 @test size(p) == (512,)
 @test Base.IndexStyle(p) == Base.IndexLinear()
 
-@test Integer(pointer(p)) % Base.Mmap.PAGESIZE == 0
+@test Integer(pointer(p)) % Mmap.PAGESIZE == 0
