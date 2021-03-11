@@ -4,7 +4,7 @@ using Mmap
 
 
 p = PageAlignedVector{Int}(512)
-@test (p[:] = 1) == 1
+p[:] .= 1
 @test eltype(p) == Int
 @test @inferred(p[1]) == 1
 @test all(p .== 1)
@@ -12,4 +12,4 @@ p = PageAlignedVector{Int}(512)
 @test size(p) == (512,)
 @test Base.IndexStyle(p) == Base.IndexLinear()
 
-@test Integer(pointer(p)) % Mmap.PAGESIZE == 0
+@test Int(pointer(p)) % Mmap.PAGESIZE == 0
