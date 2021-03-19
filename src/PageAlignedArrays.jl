@@ -71,9 +71,9 @@ function virtualfree(addr::Ptr{T}) where {T}
         return ccall((:VirtualFree, "Kernel32"), Cint, (Ptr{Cvoid}, Csize_t, Culong),
             addr, 0, MEM_RELEASE)
     end : @static Base.Sys.islinux() ? begin
-        return ccall(:free, Void, (Ptr{Cvoid},), addr)
+        return ccall(:free, Cvoid, (Ptr{Cvoid},), addr)
     end : @static Base.Sys.isapple() ? begin
-        return ccall((:free, "libSystem.dylib"), Void, (Ptr{Cvoid},), addr)
+        return ccall((:free, "libSystem.dylib"), Cvoid, (Ptr{Cvoid},), addr)
     end : error("OS not supported")
 end
 end # module
